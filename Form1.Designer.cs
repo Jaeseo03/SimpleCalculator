@@ -287,6 +287,7 @@
             btnCE.TabIndex = 0;
             btnCE.Text = "CE";
             btnCE.UseVisualStyleBackColor = true;
+            btnCE.Click += btnCE_Click;
             // 
             // btnDelete
             // 
@@ -296,6 +297,7 @@
             btnDelete.TabIndex = 1;
             btnDelete.Text = "DEL";
             btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnClear
             // 
@@ -305,6 +307,7 @@
             btnClear.TabIndex = 2;
             btnClear.Text = "C";
             btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
             // 
             // lblTitle
             // 
