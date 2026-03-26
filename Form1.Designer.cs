@@ -72,7 +72,6 @@
             txtResult.Size = new Size(423, 27);
             txtResult.TabIndex = 2;
             txtResult.TextAlign = HorizontalAlignment.Right;
-            txtResult.TextAlignChanged += txtResult_TextAlignChanged;
             // 
             // tableLayoutPanel1
             // 
@@ -158,7 +157,7 @@
             btnAdd.TabIndex = 15;
             btnAdd.Text = "+";
             btnAdd.UseVisualStyleBackColor = true;
-            btnAdd.Click += btnAdd_Click;
+            btnAdd.Click += op_Click;
             // 
             // btnNum3
             // 
@@ -198,6 +197,7 @@
             btnSubtract.TabIndex = 11;
             btnSubtract.Text = "-";
             btnSubtract.UseVisualStyleBackColor = true;
+            btnSubtract.Click += op_Click;
             // 
             // btnNum6
             // 
@@ -237,6 +237,7 @@
             btnMultiply.TabIndex = 7;
             btnMultiply.Text = "X";
             btnMultiply.UseVisualStyleBackColor = true;
+            btnMultiply.Click += op_Click;
             // 
             // btnNum9
             // 
@@ -276,7 +277,7 @@
             btnDivide.TabIndex = 3;
             btnDivide.Text = "/";
             btnDivide.UseVisualStyleBackColor = true;
-            btnDivide.Click += button4_Click;
+            btnDivide.Click += op_Click;
             // 
             // btnCE
             // 
