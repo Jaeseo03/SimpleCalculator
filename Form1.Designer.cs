@@ -34,7 +34,7 @@
             btnEqual = new Button();
             btnDot = new Button();
             btnNum0 = new Button();
-            btnSign = new Button();
+            btnParenthesis = new Button();
             btnAdd = new Button();
             btnNum3 = new Button();
             btnNum2 = new Button();
@@ -83,7 +83,7 @@
             tableLayoutPanel1.Controls.Add(btnEqual, 3, 4);
             tableLayoutPanel1.Controls.Add(btnDot, 2, 4);
             tableLayoutPanel1.Controls.Add(btnNum0, 1, 4);
-            tableLayoutPanel1.Controls.Add(btnSign, 0, 4);
+            tableLayoutPanel1.Controls.Add(btnParenthesis, 0, 4);
             tableLayoutPanel1.Controls.Add(btnAdd, 3, 3);
             tableLayoutPanel1.Controls.Add(btnNum3, 2, 3);
             tableLayoutPanel1.Controls.Add(btnNum2, 1, 3);
@@ -103,11 +103,11 @@
             tableLayoutPanel1.Location = new Point(61, 220);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 5;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
             tableLayoutPanel1.Size = new Size(423, 305);
             tableLayoutPanel1.TabIndex = 3;
             // 
@@ -140,14 +140,15 @@
             btnNum0.UseVisualStyleBackColor = true;
             btnNum0.Click += nBtn_Click;
             // 
-            // btnSign
+            // btnParenthesis
             // 
-            btnSign.Location = new Point(3, 247);
-            btnSign.Name = "btnSign";
-            btnSign.Size = new Size(99, 55);
-            btnSign.TabIndex = 16;
-            btnSign.Text = "+/-";
-            btnSign.UseVisualStyleBackColor = true;
+            btnParenthesis.Location = new Point(3, 247);
+            btnParenthesis.Name = "btnParenthesis";
+            btnParenthesis.Size = new Size(99, 55);
+            btnParenthesis.TabIndex = 16;
+            btnParenthesis.Text = "( )";
+            btnParenthesis.UseVisualStyleBackColor = true;
+            btnParenthesis.Click += btnParenthesis_Click;
             // 
             // btnAdd
             // 
@@ -235,7 +236,7 @@
             btnMultiply.Name = "btnMultiply";
             btnMultiply.Size = new Size(99, 51);
             btnMultiply.TabIndex = 7;
-            btnMultiply.Text = "X";
+            btnMultiply.Text = "×";
             btnMultiply.UseVisualStyleBackColor = true;
             btnMultiply.Click += op_Click;
             // 
@@ -275,7 +276,7 @@
             btnDivide.Name = "btnDivide";
             btnDivide.Size = new Size(99, 51);
             btnDivide.TabIndex = 3;
-            btnDivide.Text = "/";
+            btnDivide.Text = "÷";
             btnDivide.UseVisualStyleBackColor = true;
             btnDivide.Click += op_Click;
             // 
@@ -312,11 +313,11 @@
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("맑은 고딕", 28.8000011F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            lblTitle.ForeColor = SystemColors.ActiveCaption;
+            lblTitle.Font = new Font("맑은 고딕", 28.8000011F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            lblTitle.ForeColor = Color.Gold;
             lblTitle.Location = new Point(65, 33);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(413, 66);
+            lblTitle.Size = new Size(435, 66);
             lblTitle.TabIndex = 4;
             lblTitle.Text = "Simple Calculator";
             // 
@@ -324,13 +325,15 @@
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(584, 579);
+            ClientSize = new Size(562, 579);
             Controls.Add(lblTitle);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(txtResult);
             Controls.Add(txtExpression);
+            KeyPreview = true;
             Name = "Form1";
             Text = "Form1";
+            KeyDown += Form1_KeyDown;
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -343,7 +346,7 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Button btnDot;
         private Button btnNum0;
-        private Button btnSign;
+        private Button btnParenthesis;
         private Button btnNum3;
         private Button btnNum2;
         private Button btnNum1;
