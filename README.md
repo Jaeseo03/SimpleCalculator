@@ -10,9 +10,14 @@
 - 사용한 플랫폼: 
 	- C#, .NET Windows Forms, Visual Studio, GitHub
 - 사용한 컨트롤: 
-	- Button, Label, TableLayoutPanel
+	- Button (GDI+를 이용한 둥근 모서리 커스텀 렌더링 적용)
+	- TextBox (수식과 결과창 분리 및 동적 폰트 크기 조절)
+	- TableLayoutPanel (해상도 대응 유연한 레이아웃 구조 설계)
 - 사용한 기술과 구현한 기능: 
-	- 사칙연산 알고리즘 처리, 예외 처리, UI 동기화
+	- 고급 UI 엔진: Win32 API(CreateRoundRectRgn) 및 GDI+(GraphicsPath)를 이용한 Non-client Area 곡률 제어 및 부드러운 UI 구현
+	- 지능형 연산 알고리즘: DataTable.Compute 기반의 수식 파싱 및 스마트 괄호 자동 완성 로직 적용
+	- 상태 관리: 다크/라이트 모드 전환 시 실시간 테마 동기화 및 가독성 최적화
+	- 예외 처리: 잘못된 수식 입력 및 연산 오류에 대한 안정적인 Try-Catch 예외 처리 및 사용자 피드백 구현
 
 ---
 

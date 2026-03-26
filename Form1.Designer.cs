@@ -52,6 +52,7 @@
             btnDelete = new Button();
             btnClear = new Button();
             lblTitle = new Label();
+            btnThemeToggle = new Button();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -321,11 +322,22 @@
             lblTitle.TabIndex = 4;
             lblTitle.Text = "Simple Calculator";
             // 
+            // btnThemeToggle
+            // 
+            btnThemeToggle.Location = new Point(12, 12);
+            btnThemeToggle.Name = "btnThemeToggle";
+            btnThemeToggle.Size = new Size(60, 40);
+            btnThemeToggle.TabIndex = 5;
+            btnThemeToggle.Text = "Mode";
+            btnThemeToggle.UseVisualStyleBackColor = true;
+            btnThemeToggle.Click += btnThemeToggle_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(562, 579);
+            Controls.Add(btnThemeToggle);
             Controls.Add(lblTitle);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(txtResult);
@@ -365,5 +377,6 @@
         private Button btnSubtract;
         private Button btnMultiply;
         private Button btnDivide;
+        private Button btnThemeToggle;
     }
 }

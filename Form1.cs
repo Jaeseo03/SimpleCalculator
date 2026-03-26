@@ -15,6 +15,7 @@ namespace SimpleCalculator
         string fullExpression = "";
         bool isOperationPerformed = false;
         bool isEqualed = false;
+        private bool isDarkMode = true; // 기본값은 다크모드
 
         // 디자인 컬러 정의 (배경색을 살짝 밝게 조정)
         Color colorBg = Color.FromArgb(45, 48, 54);        // 메인 배경: 덜 어두운 검은색 (조정됨)
@@ -42,82 +43,87 @@ namespace SimpleCalculator
             ApplyPremiumDesign_V2();
         }
 
+        // 테마별 색상 정의 (배경, 디스플레이, 숫자버튼, 연산버튼, 텍스트)
+        private void SetThemeColors()
+        {
+            if (isDarkMode)
+            {
+                colorBg = Color.FromArgb(32, 33, 36);
+                colorDisplay = Color.FromArgb(45, 46, 50);
+                colorNumBtn = Color.FromArgb(60, 64, 67);
+                colorOpBtn = Color.FromArgb(0, 122, 204);
+                // [수정] 다크모드에서 글자가 아주 잘 보이도록 순백색과 밝은 하늘색 적용
+                colorText = Color.White;
+                colorAccentText = Color.FromArgb(138, 180, 248);
+            }
+            else // 라이트 모드
+            {
+                colorBg = Color.FromArgb(241, 243, 244);
+                colorDisplay = Color.White;
+                colorNumBtn = Color.FromArgb(255, 255, 255);
+                colorOpBtn = Color.FromArgb(232, 234, 237);
+                colorText = Color.FromArgb(60, 64, 67);
+                colorAccentText = Color.FromArgb(25, 103, 210);
+            }
+        }
+
+        // 2. 부드러운 UI 적용 버전
         private void ApplyPremiumDesign_V2()
         {
-            // 1. 기본 폼 설정
+            SetThemeColors();
+
             this.BackColor = colorBg;
-            this.KeyPreview = true;
-            this.FormBorderStyle = FormBorderStyle.None;
 
-            // 2. 수식 입력창 설정 (상단)
+            // 1. 입력창(수식) 디자인: 글씨 크기를 14pt로 키우고 색상 적용
             txtExpression.BackColor = colorDisplay;
-            txtExpression.ForeColor = Color.DarkGray;
-            txtExpression.BorderStyle = BorderStyle.None;
+            txtExpression.ForeColor = isDarkMode ? Color.FromArgb(200, 200, 200) : Color.Gray; // 수식은 약간 흐리게
             txtExpression.Font = new Font("맑은 고딕", 14F, FontStyle.Regular);
-            txtExpression.TextAlign = HorizontalAlignment.Right;
-            // 여백 추가: 텍스트박스 내부가 아니라 컨트롤 자체의 여백 설정
-            txtExpression.Margin = new Padding(0, 10, 20, 0);
 
-            // 3. 결과 출력창 설정 (하단)
-            txtResult.Multiline = true;
-            txtResult.Height = 70; // 폰트 크기에 맞춰 높이를 조금 더 확보
+            // 2. 결과창 디자인: 글씨 크기를 28pt로 크게 키우고 강조색 적용
             txtResult.BackColor = colorDisplay;
             txtResult.ForeColor = colorAccentText;
-            txtResult.BorderStyle = BorderStyle.None;
-            txtResult.Font = new Font("맑은 고딕", 30F, FontStyle.Bold); // 32pt에서 30pt로 살짝 조절 (안정감)
-            txtResult.TextAlign = HorizontalAlignment.Right;
-            txtResult.Margin = new Padding(0, 0, 20, 10); // 오른쪽과 아래에 여백
+            txtResult.Font = new Font("맑은 고딕", 28F, FontStyle.Bold);
 
-            // 4. 버튼 그리드 디자인
+            // 3. 테마 전환 버튼: 현재 모드 이름을 표시 (Dark/Light)
+            if (btnThemeToggle != null)
+            {
+                btnThemeToggle.Text = isDarkMode ? "Dark" : "Light"; // 요청하신 대로 수정
+                btnThemeToggle.BackColor = isDarkMode ? Color.FromArgb(60, 64, 67) : Color.FromArgb(225, 225, 225);
+                btnThemeToggle.ForeColor = colorText;
+                btnThemeToggle.FlatStyle = FlatStyle.Flat;
+                btnThemeToggle.FlatAppearance.BorderSize = 0;
+                btnThemeToggle.Cursor = Cursors.Hand;
+            }
+
+            // 버튼들 둥글게 그리기 (기존 코드 유지)
             if (tableLayoutPanel1 != null)
             {
-                // 버튼 사이의 간격을 넓혀서 시원하게 만듦
-                tableLayoutPanel1.Padding = new Padding(10);
-
                 foreach (Control c in tableLayoutPanel1.Controls)
                 {
                     if (c is Button btn)
                     {
                         btn.FlatStyle = FlatStyle.Flat;
                         btn.FlatAppearance.BorderSize = 0;
-                        btn.Cursor = Cursors.Hand;
-                        btn.Font = new Font("맑은 고딕", 16F, FontStyle.Bold); // 버튼 글씨도 살짝 조절
-                        btn.ForeColor = Color.White;
-                        btn.Margin = new Padding(5); // 버튼 간 간격 확보
+                        btn.Font = new Font("맑은 고딕", 16F, FontStyle.Bold);
+                        btn.ForeColor = (isDarkMode || btn.Text == "=") ? Color.White : Color.Black;
 
-                        // 버튼 색상 로직
                         if (char.IsDigit(btn.Text[0]) || btn.Text == ".") btn.BackColor = colorNumBtn;
                         else if (btn.Text == "=") btn.BackColor = colorAccent;
                         else btn.BackColor = colorOpBtn;
 
+                        btn.Paint -= Btn_Paint;
                         btn.Paint += Btn_Paint;
-                        btn.MouseDown += (s, e) => { if (s is Button b) { b.BackColor = Color.White; b.Invalidate(); } };
-                        btn.MouseUp += (s, e) =>
-                        {
-                            if (s is Button b)
-                            {
-                                if (char.IsDigit(b.Text[0]) || b.Text == ".") b.BackColor = colorNumBtn;
-                                else if (b.Text == "=") b.BackColor = colorAccent;
-                                else b.BackColor = colorOpBtn;
-                                b.Invalidate();
-                            }
-                        };
+                        btn.Invalidate();
                     }
                 }
             }
+        }
 
-            // 5. 헤더 패널
-            panelHeader.Size = new Size(this.Width, 35);
-            panelHeader.Dock = DockStyle.Top;
-            panelHeader.BackColor = colorBg;
-            panelHeader.MouseDown += (s, e) => { if (e.Button == MouseButtons.Left) { ReleaseCapture(); SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0); } };
-            this.Controls.Add(panelHeader);
-
-            // 6. 종료 버튼
-            Button btnClose = new Button { Text = "×", Size = new Size(30, 30), Location = new Point(this.Width - 35, 3), FlatStyle = FlatStyle.Flat, ForeColor = Color.White, BackColor = Color.Transparent, Font = new Font("맑은 고딕", 12, FontStyle.Bold) };
-            btnClose.FlatAppearance.BorderSize = 0;
-            btnClose.Click += (s, e) => this.Close();
-            panelHeader.Controls.Add(btnClose);
+        // 디자인 창에서 버튼을 더블 클릭해서 이 이벤트를 연결해 주세요!
+        private void btnThemeToggle_Click(object sender, EventArgs e)
+        {
+            isDarkMode = !isDarkMode;
+            ApplyPremiumDesign_V2(); // 디자인 재적용
         }
 
         private void nBtn_Click(object? sender, EventArgs e)
@@ -263,12 +269,22 @@ namespace SimpleCalculator
         private void Btn_Paint(object? sender, PaintEventArgs e)
         {
             if (sender is not Button btn) return;
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias; // 안티앨리어싱 적용
             Color baseColor = btn.BackColor;
-            using (LinearGradientBrush brush = new LinearGradientBrush(btn.ClientRectangle, ControlPaint.Light(baseColor), baseColor, 90F))
-                FillRoundedRectangle(e.Graphics, brush, 2, 2, btn.Width - 4, btn.Height - 4, 10);
+
+            using (SolidBrush brush = new SolidBrush(baseColor))
+            {
+                // 마지막 숫자 18이 둥글기 정도입니다. 더 부드럽게 조정했어요.
+                FillRoundedRectangle(e.Graphics, brush, 1, 1, btn.Width - 3, btn.Height - 3, 18);
+            }
+
+            // 텍스트 그리기
             StringFormat sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-            e.Graphics.DrawString(btn.Text, btn.Font, new SolidBrush(btn.ForeColor), btn.ClientRectangle, sf);
+            using (SolidBrush textBrush = new SolidBrush(btn.ForeColor))
+            {
+                e.Graphics.DrawString(btn.Text, btn.Font, textBrush, btn.ClientRectangle, sf);
+            }
         }
 
         public static void FillRoundedRectangle(Graphics graphics, Brush brush, int x, int y, int width, int height, int radius)
@@ -289,7 +305,8 @@ namespace SimpleCalculator
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            this.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 30, 30));
+            // 마지막 두 숫자를 40, 40으로 높이면 전체 창이 더 부드러워집니다.
+            this.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 40, 40));
         }
 
         private void ExecuteOpByText(string op) { op_Click(new Button { Text = op }, EventArgs.Empty); }
